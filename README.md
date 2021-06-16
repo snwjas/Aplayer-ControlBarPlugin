@@ -29,6 +29,10 @@ Please use it in `fixed` mode.
 
 
 
+预览地址(Preview)：[Myles Home](http://www.snwjas.xyz/)
+
+预览说明(Note)：按`M`键即可呼出Aplayer (Press the `M` key to call out Aplayer)
+
 ![Aplayer-ControlBarPlugin](assets/Aplayer-ControlBarPlugin.gif)
 
 ![Aplayer-ControlBarPlugin](assets/Aplayer-ControlBarPlugin.png)
