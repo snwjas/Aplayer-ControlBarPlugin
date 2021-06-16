@@ -5,11 +5,11 @@ class Movadsorbent {
 	/**
 	 * 上一次停靠的坐标
 	 */
-	lastStop = { left: 0, bottom: 0 }
+	lastStop = {left: 0, bottom: 0}
 	/**
 	 * 播放器坐标
 	 */
-	nowStop = { left: 0, bottom: 0 }
+	nowStop = {left: 0, bottom: 0}
 
 	constructor(aplayer, event = null) {
 		this.player = aplayer
@@ -19,6 +19,7 @@ class Movadsorbent {
 		this.initController()
 		this.initNote()
 		this.initPlayerEvent()
+		this.consoleInfo()
 	}
 
 	initPlayerStyle() {
@@ -54,37 +55,36 @@ class Movadsorbent {
 	initMinimizeButton(parentElem) {
 		let elem = document.createElement('span')
 		elem.className = 'ctrl-btn minimize'
-		parentElem.appendChild(elem)
 		elem.addEventListener('click', function (event) {
 			event.stopPropagation()
 			this.minimizePlayer()
 		}.bind(this))
+		parentElem.appendChild(elem)
 	}
 
 	initMaximizeButton(parentElem) {
 		let elem = document.createElement('span')
 		elem.className = 'ctrl-btn maximize'
-		parentElem.appendChild(elem)
 		elem.addEventListener('click', function (event) {
 			event.stopPropagation()
 			this.maximizePlayer(event)
 		}.bind(this))
+		parentElem.appendChild(elem)
 	}
 
 	initCloseButton(parentElem) {
 		let elem = document.createElement('span')
 		elem.className = 'ctrl-btn close'
-		parentElem.appendChild(elem)
 		elem.addEventListener('click', function (event) {
 			event.stopPropagation()
 			this.player.destroy()
 		}.bind(this))
+		parentElem.appendChild(elem)
 	}
 
 	initPlayerMove(parentElem) {
 		let elem = document.createElement('div')
 		elem.className = 'move-box'
-		parentElem.appendChild(elem)
 		elem.addEventListener('mousedown', function () {
 			document.body.style.cursor = 'move'
 			window.onmousemove = function (event) {
@@ -97,6 +97,7 @@ class Movadsorbent {
 				window.onmousemove = window.onmouseup = undefined
 			}.bind(this)
 		}.bind(this))
+		parentElem.appendChild(elem)
 	}
 
 	initPlayerEvent() {
@@ -189,7 +190,7 @@ class Movadsorbent {
 		apElem.style.left = apBodyElem.style.left = '0px'
 		apElem.style.bottom = apBodyElem.style.bottom = '0px'
 
-		this.lastStop = { ...this.nowStop }
+		this.lastStop = {...this.nowStop}
 		this.nowStop.left = this.nowStop.bottom = 0
 
 		setTimeout(function () {
@@ -213,7 +214,7 @@ class Movadsorbent {
 		if (this.nowStop.left + '' === '0' && this.nowStop.bottom + '' === '0') {
 			apElem.style.left = apBodyElem.style.left = this.lastStop.left + 'px'
 			apElem.style.bottom = apBodyElem.style.bottom = this.lastStop.bottom + 'px'
-			this.nowStop = { ...this.lastStop }
+			this.nowStop = {...this.lastStop}
 		}
 
 		setTimeout(function () {
@@ -255,8 +256,7 @@ class Movadsorbent {
 		if (noteContainerElem) {
 			// 是否显示音符
 			noteContainerElem.className = this.player.audio.paused
-				? 'note-container'
-				: 'note-container playing'
+				? 'note-container' : 'note-container playing'
 			// 左右音符切换
 			let animationNamePrefix = this.nowStop.left > (document.body.clientWidth >> 1)
 				? 'note-move-right' : 'note-move-left'
@@ -300,6 +300,13 @@ class Movadsorbent {
 			Math.round(Math.random() * 236) + ',' +
 			Math.round(Math.random() * 236) + ',' +
 			Math.round(Math.random() * 236) + ')'
+	}
+
+	consoleInfo() {
+		console.log('\n %c APlayer-Control-Bar-Plugin %c https://github.com/snwjas/Aplayer-ControlBarPlugin \n',
+			'color: #fadfa3; background: #030307; padding:5px 0;',
+			'background: #fadfa3; padding:5px 0;'
+		);
 	}
 }
 
