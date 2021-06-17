@@ -1,52 +1,55 @@
 /**
- * 移动和吸附
+ * Aplayer control bar plug-in
+ * Which can be used to drag, move, minimize, maximize and close like PC system window.
  */
 class Movadsorbent {
 	/**
-	 * 上一次停靠的坐标
+	 * The left/bottom margin of the screen before the player is minimized
 	 */
-	lastStop = {left: 0, bottom: 0}
+	lastStop = { left: 0, bottom: 0 }
+
 	/**
-	 * 播放器坐标
+	 * The left/bottom margin of the current APlayer in the screen
 	 */
-	nowStop = {left: 0, bottom: 0}
+	curStop = { left: 0, bottom: 0 }
 
 	constructor(aplayer, event = null) {
 		this.player = aplayer
 		this.event = event
 
 		this.initPlayerStyle()
-		this.initController()
+		this.initControllerBar()
 		this.initNote()
 		this.initPlayerEvent()
 		this.consoleInfo()
 	}
 
 	initPlayerStyle() {
-		// 清除过渡动画，否则移动可能卡顿
+		// In order to move without delay, clear the APlyer transition
 		document.querySelector('.aplayer-body').style.transition = 'none'
-		// 清除播放列表边框
+		// Clear playlist border
 		document.querySelector('.aplayer-list').style.border = 'none'
 	}
 
-	initController() {
-		// 清除原来的展开按钮（清除绑定事件）
+	initControllerBar() {
+		// Clear the original mini switcher button
+		// In order to clear its bound events
 		let ctrlBar = document.querySelector('.aplayer-miniswitcher')
 		let ctrlBarParent = ctrlBar.parentNode || ctrlBar.parentElement
 		ctrlBarParent.removeChild(ctrlBar)
-		// 重新添加
+		// Recreate the element
 		ctrlBar = document.createElement('div')
 		ctrlBar.className = 'aplayer-miniswitcher'
 		ctrlBarParent = ctrlBarParent.appendChild(ctrlBar)
 
-		// 初始化拖拽
+		// Initialize the APlayer's drag movement
 		this.initPlayerMove(ctrlBar)
 
-		// 添加控制按钮元素(flex)
+		// Create the parent element of the control button
 		ctrlBar = document.createElement('div')
 		ctrlBar.className = 'ctrl-bar'
 		ctrlBarParent.appendChild(ctrlBar)
-		// 初始化按钮
+		// Initialize control button
 		this.initMinimizeButton(ctrlBar)
 		this.initMaximizeButton(ctrlBar)
 		this.initCloseButton(ctrlBar)
@@ -55,87 +58,100 @@ class Movadsorbent {
 	initMinimizeButton(parentElem) {
 		let elem = document.createElement('span')
 		elem.className = 'ctrl-btn minimize'
-		elem.addEventListener('click', function (event) {
-			event.stopPropagation()
+		elem.addEventListener('click', (event) => {
 			this.minimizePlayer()
-		}.bind(this))
+			event.stopPropagation()
+		})
 		parentElem.appendChild(elem)
 	}
 
 	initMaximizeButton(parentElem) {
 		let elem = document.createElement('span')
 		elem.className = 'ctrl-btn maximize'
-		elem.addEventListener('click', function (event) {
-			event.stopPropagation()
+		elem.addEventListener('click', (event) => {
 			this.maximizePlayer(event)
-		}.bind(this))
+			event.stopPropagation()
+		})
 		parentElem.appendChild(elem)
 	}
 
 	initCloseButton(parentElem) {
 		let elem = document.createElement('span')
 		elem.className = 'ctrl-btn close'
-		elem.addEventListener('click', function (event) {
-			event.stopPropagation()
+		elem.addEventListener('click', (event) => {
 			this.player.destroy()
-		}.bind(this))
+			event.stopPropagation()
+		})
 		parentElem.appendChild(elem)
 	}
 
+	/**
+	 * Initialize the APlayer's drag movement
+	 *
+	 * @param parentElem Parent dom element
+	 */
 	initPlayerMove(parentElem) {
 		let elem = document.createElement('div')
 		elem.className = 'move-box'
-		elem.addEventListener('mousedown', function () {
+		elem.addEventListener('mousedown', (e) => {
 			document.body.style.cursor = 'move'
-			window.onmousemove = function (event) {
-				this.movePlayer(event)
-			}.bind(this)
-			window.onmouseup = function (event) {
+
+			let apElem = document.querySelector('.aplayer-fixed')
+			let apBodyElem = document.querySelector('.aplayer-body')
+			// The distance between the APlayer and the left/bottom end of the screen
+			// variable as string
+			let strLeft = apElem.style.left.replace('px', '') || '0'
+			let strBottom = apElem.style.bottom.replace('px', '') || '0'
+			// The offset left/bottom of the mouse in the APlayer
+			let offsetLeft = e.clientX - parseInt(strLeft)
+			let offsetBottom = document.body.clientHeight - e.clientY - parseInt(strBottom)
+			window.onmousemove = (e1) => {
+				this.movePlayer(e1, apElem, apBodyElem, offsetLeft, offsetBottom)
+			}
+
+			window.onmouseup = (e2) => {
 				document.body.style.cursor = 'default'
-				this.playerStop(event)
-				this.noteShowHidden()
+				this.playerStop(e2)
+				this.noteAutoControl()
 				window.onmousemove = window.onmouseup = undefined
-			}.bind(this)
-		}.bind(this))
+			}
+		})
 		parentElem.appendChild(elem)
 	}
 
 	initPlayerEvent() {
-		this.player.on('listshow', function () {
-			setTimeout(function () {
-				this.playerStop()
-			}.bind(this), 500);
-		}.bind(this))
-		this.player.on('play', function () {
-			this.noteShowHidden()
-		}.bind(this))
-		this.player.on('pause', function () {
-			this.noteShowHidden()
-		}.bind(this))
+		this.player.on('listshow', () => setTimeout(() => this.playerStop(), 500))
+		this.player.on('play', () => this.noteAutoControl())
+		this.player.on('pause', () => this.noteAutoControl())
 	}
 
 	/**
-	 * 移动播放器
+	 * Drag to move the APlayer
+	 *
+	 * @param event MouseEvent
+	 * @param apElem APlayer container
+	 * @param apBodyElem APlayer body container
+	 * @param offsetLeft The offset left of the mouse in the APlayer
+	 * @param offsetBottom The offset bottom of the mouse in the APlayer
 	 */
-	movePlayer(event) {
-		let apElem = document.querySelector('.aplayer-fixed')
-		let apBodyElem = document.querySelector('.aplayer-body')
-
-		let apElemWidth = Math.max(66, apBodyElem.clientWidth) + 18
-		let apElemHeight = Math.max(66, apElem.clientHeight) >> 1
+	movePlayer(event, apElem, apBodyElem, offsetLeft, offsetBottom) {
 
 		this.event = event || window.event || this.event
-		let curLeft = (this.event.clientX - apElemWidth)
-		let curBottom = (document.body.clientHeight - this.event.clientY - apElemHeight)
-		this.nowStop.left = curLeft
-		this.nowStop.bottom = curBottom
+
+		let curLeft = this.event.clientX - offsetLeft
+		let curBottom = document.body.clientHeight - this.event.clientY - offsetBottom
+
+		this.curStop.left = curLeft
+		this.curStop.bottom = curBottom
 
 		apElem.style.left = apBodyElem.style.left = curLeft + 'px'
 		apElem.style.bottom = apBodyElem.style.bottom = curBottom + 'px'
 	}
 
 	/**
-	 * 播放器停靠处理
+	 * Handle the APlayer's drag and drop movement stop
+	 *
+	 * @param event MouseEvent
 	 */
 	playerStop(event) {
 		let apElem = document.querySelector('.aplayer-fixed')
@@ -144,41 +160,41 @@ class Movadsorbent {
 		let apElemWidth = Math.max(66, apBodyElem.clientWidth) + 18
 		let apElemHeight = Math.max(66, apElem.clientHeight)
 
-		// 处理底边距
-		let bottom = null
-		if (this.nowStop.bottom < 16) {
+		// Check the top and bottom margins
+		let bottom
+		if (this.curStop.bottom < 16) {
 			bottom = '0'
-		} else if (this.nowStop.bottom + apElemHeight + 16 > document.body.clientHeight) {
+		} else if (this.curStop.bottom + apElemHeight + 16 > document.body.clientHeight) {
 			bottom = document.body.clientHeight - apElemHeight
 		}
 		if (bottom) apElem.style.bottom = apBodyElem.style.bottom = bottom + 'px'
 
-		// 处理左边距
-		let left = null;
-		if (this.nowStop.left < 16) {
+		// Check Left and right margins
+		let left
+		if (this.curStop.left < 16) {
 			left = '0'
-		} else if (this.nowStop.left + apElemWidth + 36 > document.body.clientWidth) {
-			left = (document.body.clientWidth << 1) - window.innerWidth - apElemWidth + 18
+		} else if (this.curStop.left + apElemWidth + 16 > document.body.clientWidth) {
+			left = document.body.clientWidth - apElemWidth + 18
 		}
 		if (left) apElem.style.left = apBodyElem.style.left = left + 'px'
 
-		// 判断是否吸附
+		// Whether to adsorb
 		if (bottom || left) {
 			this.event = event || window.event || this.event
-			this.nowStop.left = this.lastStop.left = left ? left
-				: (this.event.clientX - apElemWidth)
-			this.nowStop.bottom = this.lastStop.bottom = bottom ? bottom
-				: (document.body.clientHeight - this.event.clientY - apElemHeight)
+			this.curStop.bottom = this.lastStop.bottom = bottom
+				? bottom : (document.body.clientHeight - this.event.clientY - apElemHeight)
+			this.curStop.left = this.lastStop.left = left
+				? left : (this.event.clientX - apElemWidth)
 		}
 	}
 
 	/**
-	 * 最小化播放器
+	 * Minimize the APlayer
 	 */
 	minimizePlayer() {
 		this.setPlayerMode('mini')
 
-		if (this.nowStop.left + '' === '0' && this.nowStop.bottom + '' === '0') {
+		if (this.curStop.left + '' === '0' && this.curStop.bottom + '' === '0') {
 			return
 		}
 
@@ -190,17 +206,17 @@ class Movadsorbent {
 		apElem.style.left = apBodyElem.style.left = '0px'
 		apElem.style.bottom = apBodyElem.style.bottom = '0px'
 
-		this.lastStop = {...this.nowStop}
-		this.nowStop.left = this.nowStop.bottom = 0
+		this.lastStop = { ...this.curStop }
+		this.curStop.left = this.curStop.bottom = 0
 
-		setTimeout(function () {
+		setTimeout(() => {
 			apBodyElem.style.transition = 'none'
-			this.noteShowHidden()
-		}.bind(this), 500);
+			this.noteAutoControl()
+		}, 500);
 	}
 
 	/**
-	 * 最大化播放器
+	 * Maximize the APlayer
 	 */
 	maximizePlayer(event) {
 		this.setPlayerMode(this.player.mode === 'mini' ? 'normal' : 'mini')
@@ -211,30 +227,29 @@ class Movadsorbent {
 		apBodyElem.style.transition = 'all .5s ease'
 		apElem.style.background = '#fff'
 
-		if (this.nowStop.left + '' === '0' && this.nowStop.bottom + '' === '0') {
+		if (this.curStop.left + '' === '0' && this.curStop.bottom + '' === '0') {
 			apElem.style.left = apBodyElem.style.left = this.lastStop.left + 'px'
 			apElem.style.bottom = apBodyElem.style.bottom = this.lastStop.bottom + 'px'
-			this.nowStop = {...this.lastStop}
+			this.curStop = { ...this.lastStop }
 		}
 
-		setTimeout(function () {
+		setTimeout(() => {
 			apBodyElem.style.transition = 'none'
-			this.noteShowHidden()
+			this.noteAutoControl()
 			this.playerStop(event)
-		}.bind(this), 500);
+		}, 500);
 	}
 
 	/**
-	 * 初始化音符
+	 * Initialize the floating music symbol
 	 */
 	initNote() {
 		let note = document.createElement('div')
 		note.className = 'note-container'
-		this.player.container.parentNode.appendChild(note)
-		// 判断是左还是右
-		let animationNamePrefix = this.nowStop.left > (document.body.clientWidth >> 1)
+		// The notes move to the left or to the right
+		let animationNamePrefix = this.curStop.left > (document.body.clientWidth >> 1)
 			? 'note-move-right' : 'note-move-left'
-		// 初始化每个音符
+		// Initialize each note
 		for (let i = 1; i < 4; i++) {
 			let elem = document.createElement('div')
 			elem.id = 'note' + i
@@ -244,25 +259,27 @@ class Movadsorbent {
 			elem.style.animationName = animationNamePrefix + i
 			note.appendChild(elem)
 		}
-		// 添加到播放封面里
+		// Add note container element to the APlayer cover
 		document.querySelector('.aplayer-pic').appendChild(note)
 	}
 
 	/**
-	 * 音符显示或隐藏，或改变方向
+	 * Automatic control of notes,
+	 * including whether to display notes and the direction of notes
 	 */
-	noteShowHidden() {
+	noteAutoControl() {
 		let noteContainerElem = document.querySelector('.note-container')
 		if (noteContainerElem) {
-			// 是否显示音符
+			// Show notes or not
 			noteContainerElem.className = this.player.audio.paused
 				? 'note-container' : 'note-container playing'
-			// 左右音符切换
-			let animationNamePrefix = this.nowStop.left > (document.body.clientWidth >> 1)
+			// The notes move to the left or to the right
+			let animationNamePrefix = this.curStop.left > (document.body.clientWidth >> 1)
 				? 'note-move-right' : 'note-move-left'
 			for (let i = 1; i < 4; i++) {
 				let noteElem = document.getElementById('note' + i)
 				noteElem.style.animationName = animationNamePrefix + i
+				// Fill in random color of notes when playing music
 				if (!this.player.audio.paused) {
 					noteElem.querySelector('svg path')
 						.style.fill = this.randomRGBColor()
@@ -277,9 +294,6 @@ class Movadsorbent {
 		}
 	}
 
-	/**
-	 * 设置播放器模式
-	 */
 	setPlayerMode(mode = 'normal') {
 		let elem = document.querySelector('.aplayer-list')
 		let elemc = elem.querySelector('ol')
@@ -309,4 +323,3 @@ class Movadsorbent {
 		);
 	}
 }
-
