@@ -1,4 +1,4 @@
-.move-box {
+.acbp-move-box {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -7,7 +7,7 @@
   cursor: move;
 }
 
-.ctrl-bar {
+.acbp-ctrl-bar {
   width: 100%;
   height: 100%;
   display: flex;
@@ -15,7 +15,7 @@
   justify-content: space-around;
   align-items: center;
 
-  .ctrl-btn {
+  .acbp-ctrl-btn {
     display: inline-block;
     margin: 0 auto;
     width: 10px;
@@ -51,7 +51,7 @@
   }
 }
 
-.note-container {
+.acbp-note-container {
   width: 30px;
   height: 30px;
   position: absolute;
@@ -59,11 +59,11 @@
   bottom: 50%;
   margin: 0 -15px -15px 0;
 
-  &.playing .note {
+  &.playing .acbp-note {
     display: block;
   }
 
-  .note {
+  .acbp-note {
     display: none;
     opacity: 0;
     width: 16px;
@@ -77,9 +77,9 @@
     }
   }
 
-  #note1 {
-    animation: note-move-left1 2s linear 0s infinite normal;
-    @keyframes note-move-left1 {
+  #acbp-note1 {
+    animation: acbp-note-move-left1 2s linear 0s infinite normal;
+    @keyframes acbp-note-move-left1 {
       0% {
         left: 0;
         top: 0;
@@ -96,7 +96,7 @@
       }
     }
 
-    @keyframes note-move-right1 {
+    @keyframes acbp-note-move-right1 {
       0% {
         right: 0;
         top: 0;
@@ -114,9 +114,9 @@
     }
   }
 
-  #note2 {
-    animation: note-move-left2 2s linear 0.4s infinite normal;
-    @keyframes note-move-left2 {
+  #acbp-note2 {
+    animation: acbp-note-move-left2 2s linear 0.4s infinite normal;
+    @keyframes acbp-note-move-left2 {
       0% {
         left: 0;
         top: 0;
@@ -133,7 +133,7 @@
       }
     }
 
-    @keyframes note-move-right2 {
+    @keyframes acbp-note-move-right2 {
       0% {
         right: 0;
         top: 0;
@@ -151,9 +151,9 @@
     }
   }
 
-  #note3 {
-    animation: note-move-left3 2s linear 0.7s infinite normal;
-    @keyframes note-move-left3 {
+  #acbp-note3 {
+    animation: acbp-note-move-left3 2s linear 0.7s infinite normal;
+    @keyframes acbp-note-move-left3 {
       0% {
         left: 0;
         top: 0;
@@ -170,7 +170,7 @@
       }
     }
 
-    @keyframes note-move-right3 {
+    @keyframes acbp-note-move-right3 {
       0% {
         right: 0;
         top: 0;

@@ -9,7 +9,6 @@ Modify the “miniswitcher” noninvasively and it can realize the dragging, mov
 Please use it in `fixed` mode.
 
 ```js
-<link type="text/css" rel="stylesheet" href="movadsorbent.min.css" />
 <script type="text/javascript" src="movadsorbent.min.js"></script>
 
 <script>
@@ -23,13 +22,13 @@ Please use it in `fixed` mode.
     	autoplay: false,
     	order: 'random'
 	});
-	new Movadsorbent(aplayer);
+	new Movadsorbent(aplayer, false);
 <script/>
 ```
 
 
 
-预览地址(Preview)：[Myles Home](http://www.snwjas.xyz/)
+预览地址(Preview)：[Myles Home](http://www.refrain.xyz/)
 
 预览说明(Note)：按`M`键即可呼出Aplayer (Press the `M` key to call out Aplayer)
 
