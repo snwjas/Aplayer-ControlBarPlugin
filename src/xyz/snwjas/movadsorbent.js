@@ -18,7 +18,7 @@ class Movadsorbent {
 	 * @param showNote Whether to display the music note
 	 * @param event
 	 */
-	constructor(aplayer, showNote = true, event = null) {
+	constructor(aplayer, showNote, event) {
 		this.player = aplayer
 		this.showNote = showNote
 		this.event = event
@@ -37,7 +37,7 @@ class Movadsorbent {
 		// Clear playlist border
 		this.player.container.querySelector('.aplayer-list').style.border = 'none'
 		// Add style
-		let css = `.acbp-move-box{width:100%;height:100%;position:absolute;left:0;top:0;cursor:move}.acbp-ctrl-bar{width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-around;align-items:center}.acbp-ctrl-bar .acbp-ctrl-btn{display:inline-block;margin:0 auto;width:10px;height:10px;border-radius:50%;cursor:pointer;flex-shrink:0;z-index:999}.acbp-ctrl-bar .acbp-ctrl-btn.minimize{background-color:#8bd7e2}.acbp-ctrl-bar .acbp-ctrl-btn.minimize:hover{background-color:#00bbcd}.acbp-ctrl-bar .acbp-ctrl-btn.maximize{background-color:#96d6bf}.acbp-ctrl-bar .acbp-ctrl-btn.maximize:hover{background-color:#1bb775}.acbp-ctrl-bar .acbp-ctrl-btn.close{background-color:#e69eb2}.acbp-ctrl-bar .acbp-ctrl-btn.close:hover{background-color:#e42d54}.acbp-note-container{width:30px;height:30px;position:absolute;right:50%;bottom:50%;margin:0 -15px -15px 0}.acbp-note-container.playing .acbp-note{display:block}.acbp-note-container .acbp-note{display:none;opacity:0;width:16px;height:16px;position:absolute;z-index:999}.acbp-note-container .acbp-note .icon{width:100%;height:100%}.acbp-note-container #acbp-note1{animation:acbp-note-move-left1 2s linear 0 infinite normal}@keyframes acbp-note-move-left1{0{left:0;top:0;opacity:0}50%{opacity:1;transform:rotate(9deg)}100%{left:200px;top:-90px;opacity:0}}@keyframes acbp-note-move-right1{0{right:0;top:0;opacity:0}50%{opacity:1;transform:rotate(9deg)}100%{right:200px;top:-90px;opacity:0}}.acbp-note-container #acbp-note2{animation:acbp-note-move-left2 2s linear .4s infinite normal}@keyframes acbp-note-move-left2{0{left:0;top:0;opacity:0}50%{opacity:1;transform:rotate(-9deg)}100%{left:200px;top:-80px;opacity:0}}@keyframes acbp-note-move-right2{0{right:0;top:0;opacity:0}50%{opacity:1;transform:rotate(-9deg)}100%{right:200px;top:-80px;opacity:0}}.acbp-note-container #acbp-note3{animation:acbp-note-move-left3 2s linear .7s infinite normal}@keyframes acbp-note-move-left3{0{left:0;top:0;opacity:0}50%{opacity:1;transform:rotate(9deg)}100%{left:200px;top:-70px;opacity:0}}@keyframes acbp-note-move-right3{0{right:0;top:0;opacity:0}50%{opacity:1;transform:rotate(9deg)}100%{right:200px;top:-70px;opacity:0}}`
+		let css = ".acbp-move-box{width:100%;height:100%;position:absolute;left:0;top:0;cursor:move;}.acbp-ctrl-bar{width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-around;align-items:center;}.acbp-ctrl-bar .acbp-ctrl-btn{display:inline-block;margin:0 auto;width:10px;height:10px;border-radius:50%;cursor:pointer;flex-shrink:0;z-index:999;}.acbp-ctrl-bar .acbp-ctrl-btn.minimize{background-color:#8BD7E2;}.acbp-ctrl-bar .acbp-ctrl-btn.minimize:hover{background-color:#00BBCD;}.acbp-ctrl-bar .acbp-ctrl-btn.maximize{background-color:#96D6BF;}.acbp-ctrl-bar .acbp-ctrl-btn.maximize:hover{background-color:#1BB775;}.acbp-ctrl-bar .acbp-ctrl-btn.close{background-color:#E69EB2;}.acbp-ctrl-bar .acbp-ctrl-btn.close:hover{background-color:#E42D54;}.acbp-note-container{width:30px;height:30px;position:absolute;right:50%;bottom:50%;margin:0 -15px -15px 0;}.acbp-note-container.playing .acbp-note{display:block;}.acbp-note-container .acbp-note{display:none;opacity:0;width:16px;height:16px;position:absolute;z-index:999;}.acbp-note-container .acbp-note .icon{width:100%;height:100%;}.acbp-note-container #acbp-note1{animation:acbp-note-move-left1 2s linear 0s infinite normal;}@keyframes acbp-note-move-left1{0%{left:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(9deg);}100%{left:200px;top:-90px;opacity:0;}}@keyframes acbp-note-move-right1{0%{right:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(9deg);}100%{right:200px;top:-90px;opacity:0;}}.acbp-note-container #acbp-note2{animation:acbp-note-move-left2 2s linear 0.4s infinite normal;}@keyframes acbp-note-move-left2{0%{left:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(-9deg);}100%{left:200px;top:-80px;opacity:0;}}@keyframes acbp-note-move-right2{0%{right:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(-9deg);}100%{right:200px;top:-80px;opacity:0;}}.acbp-note-container #acbp-note3{animation:acbp-note-move-left3 2s linear 0.7s infinite normal;}@keyframes acbp-note-move-left3{0%{left:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(9deg);}100%{left:200px;top:-70px;opacity:0;}}@keyframes acbp-note-move-right3{0%{right:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(9deg);}100%{right:200px;top:-70px;opacity:0;}}";
 		let style = document.createElement('style')
 		style.rel = 'stylesheet'
 		style.innerHTML = css
@@ -113,11 +113,11 @@ class Movadsorbent {
 			let apBodyElem = this.player.container.querySelector('.aplayer-body')
 			// The distance between the APlayer and the left/bottom end of the screen
 			// variable as string
-			let strLeft = apElem.style.left.replace('px', '') || '0'
-			let strBottom = apElem.style.bottom.replace('px', '') || '0'
+			let strLeft = apElem.style.left || '0'
+			let strBottom = apElem.style.bottom || '0'
 			// The offset left/bottom of the mouse in the APlayer
-			let offsetLeft = e.clientX - parseInt(strLeft)
-			let offsetBottom = document.body.clientHeight - e.clientY - parseInt(strBottom)
+			let offsetLeft = e.clientX - parseInt(strLeft, 10)
+			let offsetBottom = document.body.clientHeight - e.clientY - parseInt(strBottom, 10)
 			window.onmousemove = (e1) => {
 				this.movePlayer(e1, apElem, apBodyElem, offsetLeft, offsetBottom)
 			}
@@ -194,8 +194,12 @@ class Movadsorbent {
 		// Whether to adsorb
 		if (bottom || left) {
 			this.event = event || window.event || this.event
-			this.curStop.bottom = this.lastStop.bottom = bottom ? bottom : (document.body.clientHeight - this.event.clientY - apElemHeight)
-			this.curStop.left = this.lastStop.left = left ? left : (this.event.clientX - apElemWidth)
+			this.curStop.bottom = this.lastStop.bottom = bottom
+				? bottom
+				: (document.body.clientHeight - this.event.clientY - apElemHeight)
+			this.curStop.left = this.lastStop.left = left
+				? left
+				: (this.event.clientX - apElemWidth)
 		}
 	}
 
@@ -234,9 +238,12 @@ class Movadsorbent {
 
 		let apElem = this.player.container
 		let apBodyElem = this.player.container.querySelector('.aplayer-body')
+		let apListElem = this.player.container.querySelector('.aplayer-list')
 
+		let isListHidden = apListElem.className.indexOf('aplayer-list-hide') > -1
+
+		if (!isListHidden) apListElem.className = 'aplayer-list aplayer-list-hide'
 		apBodyElem.style.transition = 'all .5s ease'
-		apElem.style.background = '#fff'
 
 		if (this.curStop.left + '' === '0' && this.curStop.bottom + '' === '0') {
 			apElem.style.left = apBodyElem.style.left = this.lastStop.left + 'px'
@@ -246,6 +253,8 @@ class Movadsorbent {
 
 		setTimeout(() => {
 			apBodyElem.style.transition = 'none'
+			apElem.style.background = '#fff'
+			if (!isListHidden) apListElem.className = 'aplayer-list'
 			this.noteAutoControl()
 			this.playerStop(event)
 		}, 500);
