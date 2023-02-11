@@ -24,6 +24,7 @@
     cursor: pointer;
     flex-shrink: 0;
     z-index: 999;
+    transition: background-color .2s;
 
     &.minimize {
       background-color: #8BD7E2;
