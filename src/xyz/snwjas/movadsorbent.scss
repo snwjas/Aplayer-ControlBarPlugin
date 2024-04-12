@@ -1,3 +1,28 @@
+.aplayer.aplayer-fixed {
+
+  .aplayer-body {
+    padding-right: 0;
+  }
+
+  .aplayer-miniswitcher {
+    background: #eee;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .25s;
+  }
+
+  &:hover {
+    .aplayer-body {
+      padding-right: 18px;
+    }
+
+    .aplayer-miniswitcher {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
 .acbp-move-box {
   width: 100%;
   height: 100%;
@@ -24,30 +49,23 @@
     cursor: pointer;
     flex-shrink: 0;
     z-index: 999;
-    transition: background-color .2s;
+    transition: opacity .25s;
+    opacity: .41;
+
+    &:hover {
+      opacity: 1;
+    }
 
     &.minimize {
-      background-color: #8BD7E2;
-
-      &:hover {
-        background-color: #00BBCD;
-      }
+      background-color: #00BBCD;
     }
 
     &.maximize {
-      background-color: #96D6BF;
-
-      &:hover {
-        background-color: #1BB775;
-      }
+      background-color: #1BB775;
     }
 
     &.close {
-      background-color: #E69EB2;
-
-      &:hover {
-        background-color: #E42D54;
-      }
+      background-color: #E42D54;
     }
   }
 }

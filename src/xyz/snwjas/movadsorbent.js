@@ -37,11 +37,11 @@ class Movadsorbent {
 
 	initPlayerStyle() {
 		// In order to move without delay, clear the APlyer transition
-		this.$apBody.style.transition = 'none'
+		this.$apBody.style.transition = 'padding .25s'
 		// Clear playlist border
 		this.$apList.style.border = 'none'
 		// Add style
-		const css = ".acbp-move-box{width:100%;height:100%;position:absolute;left:0;top:0;cursor:move;}.acbp-ctrl-bar{width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-around;align-items:center;}.acbp-ctrl-bar .acbp-ctrl-btn{display:inline-block;margin:0 auto;width:10px;height:10px;border-radius:50%;cursor:pointer;flex-shrink:0;z-index:999;transition: background-color .2s}.acbp-ctrl-bar .acbp-ctrl-btn.minimize{background-color:#8BD7E2;}.acbp-ctrl-bar .acbp-ctrl-btn.minimize:hover{background-color:#00BBCD;}.acbp-ctrl-bar .acbp-ctrl-btn.maximize{background-color:#96D6BF;}.acbp-ctrl-bar .acbp-ctrl-btn.maximize:hover{background-color:#1BB775;}.acbp-ctrl-bar .acbp-ctrl-btn.close{background-color:#E69EB2;}.acbp-ctrl-bar .acbp-ctrl-btn.close:hover{background-color:#E42D54;}.acbp-note-container{width:30px;height:30px;position:absolute;right:50%;bottom:50%;margin:0 -15px -15px 0;}.acbp-note-container.playing .acbp-note{display:block;}.acbp-note-container .acbp-note{display:none;opacity:0;width:16px;height:16px;position:absolute;z-index:999;}.acbp-note-container .acbp-note .icon{width:100%;height:100%;}.acbp-note-container #acbp-note1{animation:acbp-note-move-left1 2s linear 0s infinite normal;}@keyframes acbp-note-move-left1{0%{left:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(9deg);}100%{left:200px;top:-90px;opacity:0;}}@keyframes acbp-note-move-right1{0%{right:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(9deg);}100%{right:200px;top:-90px;opacity:0;}}.acbp-note-container #acbp-note2{animation:acbp-note-move-left2 2s linear 0.4s infinite normal;}@keyframes acbp-note-move-left2{0%{left:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(-9deg);}100%{left:200px;top:-80px;opacity:0;}}@keyframes acbp-note-move-right2{0%{right:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(-9deg);}100%{right:200px;top:-80px;opacity:0;}}.acbp-note-container #acbp-note3{animation:acbp-note-move-left3 2s linear 0.7s infinite normal;}@keyframes acbp-note-move-left3{0%{left:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(9deg);}100%{left:200px;top:-70px;opacity:0;}}@keyframes acbp-note-move-right3{0%{right:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(9deg);}100%{right:200px;top:-70px;opacity:0;}}";
+		const css = ".aplayer.aplayer-fixed .aplayer-body{padding-right:0;}.aplayer.aplayer-fixed .aplayer-miniswitcher{background:#eee;opacity:0;visibility:hidden;transition:all 0.25s;}.aplayer.aplayer-fixed:hover .aplayer-body{padding-right:18px;}.aplayer.aplayer-fixed:hover .aplayer-miniswitcher{opacity:1;visibility:visible;}.acbp-move-box{width:100%;height:100%;position:absolute;left:0;top:0;cursor:move;}.acbp-ctrl-bar{width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-around;align-items:center;}.acbp-ctrl-bar .acbp-ctrl-btn{display:inline-block;margin:0 auto;width:10px;height:10px;border-radius:50%;cursor:pointer;flex-shrink:0;z-index:999;transition:opacity 0.25s;opacity:0.41;}.acbp-ctrl-bar .acbp-ctrl-btn:hover{opacity:1;}.acbp-ctrl-bar .acbp-ctrl-btn.minimize{background-color:#00BBCD;}.acbp-ctrl-bar .acbp-ctrl-btn.maximize{background-color:#1BB775;}.acbp-ctrl-bar .acbp-ctrl-btn.close{background-color:#E42D54;}.acbp-note-container{width:30px;height:30px;position:absolute;right:50%;bottom:50%;margin:0 -15px -15px 0;}.acbp-note-container.playing .acbp-note{display:block;}.acbp-note-container .acbp-note{display:none;opacity:0;width:16px;height:16px;position:absolute;z-index:999;}.acbp-note-container .acbp-note .icon{width:100%;height:100%;}.acbp-note-container #acbp-note1{animation:acbp-note-move-left1 2s linear 0s infinite normal;}@keyframes acbp-note-move-left1{0%{left:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(9deg);}100%{left:200px;top:-90px;opacity:0;}}@keyframes acbp-note-move-right1{0%{right:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(9deg);}100%{right:200px;top:-90px;opacity:0;}}.acbp-note-container #acbp-note2{animation:acbp-note-move-left2 2s linear 0.4s infinite normal;}@keyframes acbp-note-move-left2{0%{left:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(-9deg);}100%{left:200px;top:-80px;opacity:0;}}@keyframes acbp-note-move-right2{0%{right:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(-9deg);}100%{right:200px;top:-80px;opacity:0;}}.acbp-note-container #acbp-note3{animation:acbp-note-move-left3 2s linear 0.7s infinite normal;}@keyframes acbp-note-move-left3{0%{left:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(9deg);}100%{left:200px;top:-70px;opacity:0;}}@keyframes acbp-note-move-right3{0%{right:0;top:0;opacity:0;}50%{opacity:1;transform:rotate(9deg);}100%{right:200px;top:-70px;opacity:0;}}";
 		const $style = document.createElement('style')
 		$style.rel = 'stylesheet'
 		$style.innerHTML = css
@@ -68,6 +68,7 @@ class Movadsorbent {
 		$ctrlBarParent.appendChild($ctrlBar)
 		// Initialize minimize control button
 		const $minBtn = document.createElement('span')
+		$minBtn.title = 'Minimize'
 		$minBtn.className = 'acbp-ctrl-btn minimize'
 		$minBtn.addEventListener('click', (event) => {
 			this.minimizePlayer()
@@ -76,6 +77,7 @@ class Movadsorbent {
 		$ctrlBar.appendChild($minBtn)
 		// Initialize maximize control button
 		const $maxBtn = document.createElement('span')
+		$maxBtn.title = 'Maximize'
 		$maxBtn.className = 'acbp-ctrl-btn maximize'
 		$maxBtn.addEventListener('click', (event) => {
 			this.maximizePlayer(event)
@@ -84,6 +86,7 @@ class Movadsorbent {
 		$ctrlBar.appendChild($maxBtn)
 		// Initialize close control button
 		const $closeBtn = document.createElement('span')
+		$closeBtn.title = 'Close'
 		$closeBtn.className = 'acbp-ctrl-btn close'
 		$closeBtn.addEventListener('click', (event) => {
 			this.player.destroy()
@@ -170,7 +173,7 @@ class Movadsorbent {
 		} else if (this.curStop.bottom + apHeight + 16 > document.body.clientHeight) {
 			bottom = document.body.clientHeight - apHeight
 		}
-		if (bottom) {
+		if (bottom !== undefined) {
 			this.$ap.style.bottom = this.$apBody.style.bottom = bottom + 'px'
 		}
 
@@ -181,7 +184,7 @@ class Movadsorbent {
 		} else if (this.curStop.left + apWidth + 16 > document.body.clientWidth) {
 			left = document.body.clientWidth - apWidth + 18
 		}
-		if (left) {
+		if (left !== undefined) {
 			this.$ap.style.left = this.$apBody.style.left = left + 'px'
 		}
 
@@ -208,7 +211,7 @@ class Movadsorbent {
 		}
 
 		this.$ap.style.background = 'none'
-		this.$apBody.style.transition = 'all .5s ease'
+		this.$apBody.style.transition = 'all .5s'
 		this.$ap.style.left = this.$apBody.style.left = '0px'
 		this.$ap.style.bottom = this.$apBody.style.bottom = '0px'
 
@@ -216,7 +219,7 @@ class Movadsorbent {
 		this.curStop.left = this.curStop.bottom = 0
 
 		setTimeout(() => {
-			this.$apBody.style.transition = 'none'
+			this.$apBody.style.transition = 'padding .25s'
 			this.noteAutoControl()
 		}, 500)
 	}
@@ -232,7 +235,7 @@ class Movadsorbent {
 		if (!isListHidden) {
 			this.$apList.className = 'aplayer-list aplayer-list-hide'
 		}
-		this.$apBody.style.transition = 'all .5s ease'
+		this.$apBody.style.transition = 'all .5s'
 
 		if (this.curStop.left + '' === '0' && this.curStop.bottom + '' === '0') {
 			this.$ap.style.left = this.$apBody.style.left = this.lastStop.left + 'px'
@@ -241,7 +244,7 @@ class Movadsorbent {
 		}
 
 		setTimeout(() => {
-			this.$apBody.style.transition = 'none'
+			this.$apBody.style.transition = 'padding .25s'
 			this.$ap.style.background = '#fff'
 			if (!isListHidden) {
 				this.$apList.className = 'aplayer-list'
